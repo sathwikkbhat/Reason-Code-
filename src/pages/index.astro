@@ -1,0 +1,120 @@
+---
+import Layout from '../layouts/Page.astro'
+import SignupForm from '../components/SignupForm.astro';
+
+const seo = {
+  title: 'ReasonCode — Learn the reasoning, not just the solution.',
+  description: 'ReasonCode — Learn the reasoning, not just the solution. Be the first to know when we launch.',
+}
+---
+
+<Layout seo={seo}>
+  <!-- Page Loader -->
+  <div class="page-loader" id="pageLoader" aria-hidden="true">
+    <img class="loader-logo" src="/logo.jpeg" alt="ReasonCode logo" loading="eager" />
+  </div>
+
+  <section id="hero" class="fade-in" style="min-height: 85vh; display: flex; align-items: center; justify-content: center; position: relative;">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="orb orb-1" aria-hidden="true"></div>
+    <div class="orb orb-2" aria-hidden="true"></div>
+    <div class="code-particles" aria-hidden="true" id="codeParticles"></div>
+
+    <div class="container" style="max-width: 700px; z-index: 10; padding: 4rem 1.5rem; text-align: center;">
+      <!-- Logo image with glow -->
+      <div style="margin-bottom: 2rem; display: inline-block; position: relative;">
+        <div class="hero-logo-glow" style="width: 140px; height: 140px; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.8;"></div>
+        <img src="/logo.jpeg" alt="ReasonCode Logo" width="110" height="110" style="border-radius: 50%; border: 2px solid var(--border-mid); filter: drop-shadow(0 0 15px rgba(62,216,112,0.45));" />
+      </div>
+
+      <div class="hero-badge" style="margin: 0 auto 1.5rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+        <span class="hero-badge-dot"></span>
+        LAUNCHING SOON · CLOSED BETA
+      </div>
+
+      <h1 class="hero-headline" style="font-size: clamp(2.5rem, 5vw, 4.2rem); margin-bottom: 1.5rem; line-height: 1.1;">
+        REASON<span class="accent">CODE</span>
+      </h1>
+
+      <p class="hero-tagline" style="font-size: clamp(1.1rem, 2.5vw, 1.45rem); color: var(--text-secondary); margin-bottom: 2.5rem; line-height: 1.6;">
+        Learn the <strong style="color: var(--green-primary); font-weight: 600;">reasoning</strong>, not just the solution.<br />
+        Be the first to know when we launch.
+      </p>
+
+      <!-- Glassmorphic Card wrapping Form -->
+      <div style="background: var(--bg-card); border: 1px solid var(--border-mid); border-radius: 16px; padding: 2rem; box-shadow: 0 20px 40px rgba(0,0,0,0.5); backdrop-filter: blur(10px); margin-bottom: 2rem;">
+        <SignupForm />
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 1rem;">
+          No spam. Early-bird beta access only. Unsubscribe anytime.
+        </p>
+      </div>
+
+      <!-- Social Proof -->
+      <div class="waitlist-social-proof" style="margin-top: 1.5rem; justify-content: center;">
+        <div class="social-proof-avatars">
+          <div class="avatar">S</div>
+          <div class="avatar">A</div>
+          <div class="avatar">M</div>
+          <div class="avatar">R</div>
+          <div class="avatar">K</div>
+        </div>
+        <span class="social-proof-text" style="font-size: 0.85rem;">
+          Join <strong>12,500+</strong> developers following the journey
+        </span>
+      </div>
+
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // ─── Page Loader ────────────────────────────────────
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const loader = document.getElementById('pageLoader');
+      if (loader) {
+        loader.classList.add('loaded');
+      }
+    }, 400);
+  });
+
+  // ─── Code particles ──────────────────────────────────
+  const snippets = [
+    'O(n log n)', 'hashMap.get()', 'left++; right--', 'dp[i] = dp[i-1] + dp[i-2]',
+    'return dfs(node)', 'while (l < r)', 'pattern: sliding-window',
+    'score: 87/100', 'reasoning: ✓', 'BFS queue.push()', 'memo[n] = result',
+    'two-pointer', 'Think. Code. Win.', 'array.sort()', 'O(1) space'
+  ];
+
+  const particlesContainer = document.getElementById('codeParticles');
+  if (particlesContainer) {
+    snippets.forEach((text) => {
+      const el = document.createElement('span');
+      el.className = 'code-particle';
+      el.textContent = text;
+      el.style.left = `${5 + Math.random() * 90}%`;
+      el.style.animationDuration = `${9 + Math.random() * 10}s`;
+      el.style.animationDelay = `${Math.random() * 6}s`;
+      el.style.fontSize = `${0.65 + Math.random() * 0.3}rem`;
+      el.style.opacity = (Math.random() * 0.1 + 0.03).toString();
+      particlesContainer.appendChild(el);
+    });
+  }
+
+  // ─── Mailchimp submit UX enhancement ─────────────────
+  const mcForm = document.getElementById('mc-embedded-subscribe-form');
+  if (mcForm) {
+    mcForm.addEventListener('submit', () => {
+      const btn = document.getElementById('mc-embedded-subscribe') as HTMLButtonElement;
+      if (btn) {
+        btn.textContent = 'Joining...';
+        btn.disabled = true;
+        // Re-enable after 5s in case of network error
+        setTimeout(() => {
+          btn.textContent = 'Join Waitlist →';
+          btn.disabled = false;
+        }, 5000);
+      }
+    });
+  }
+</script>
